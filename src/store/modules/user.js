@@ -1,8 +1,9 @@
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import { login } from '@/api/user'
+import { login, getUserInfo } from '@/api/user'
 
 const state = {
-  token: getToken() // 从缓存中读取初始值
+  token: getToken(), // 从缓存中读取初始值
+  userInfo: {} // 这里有一个空对象，为了放置后面取数据报错
 }
 const mutations = {
   setToken(state, token) {
@@ -14,6 +15,9 @@ const mutations = {
     // 删除Vuex的token
     state.token = null
     removeToken()
+  },
+  setUserInfo(state, userInfo) {
+    state.userInfo = userInfo
   }
 }
 const actions = {
@@ -28,6 +32,15 @@ const actions = {
     } catch (error) {
       console.error('登录失败：', error)
     }
+  },
+  async getUserInfo(context) {
+    const result = await getUserInfo()
+    context.commit('setUserInfo', result)
+  },
+  // 退出登录的action
+  logout(context) {
+    context.commit('removeToken') // 删除token
+    context.commit('setUserInfo', {}) // 设置用户信息为空对象
   }
 }
 export default {
