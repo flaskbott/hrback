@@ -1,12 +1,12 @@
 import axios from 'axios'
 import store from '@/store'
-import router from '@/router'
 import { Message } from 'element-ui'
+import router from '@/router'
 const service = axios.create({
-  baseURL: '/api',
+  baseURL: '/api', // 基础地址
   timeout: 10000
-})
-
+}) // 创建一个新的axios实例
+// 成功1 失败2
 service.interceptors.request.use((config) => {
   // 注入token
 //  this.$store.getters
@@ -19,8 +19,12 @@ service.interceptors.request.use((config) => {
   // 失败执行promise
   return Promise.reject(error)
 })
+
 // 响应拦截器
 service.interceptors.response.use((response) => {
+  // axios默认包裹了data
+  // 判断是不是Blob
+  if (response.data instanceof Blob) return response.data // 返回了Blob对象
   const { data, message, success } = response.data // 默认json格式
   if (success) {
     return data
@@ -38,8 +42,7 @@ service.interceptors.response.use((response) => {
     return Promise.reject(error)
   }
   // error.message
-  Message.error(error.message)
+  Message({ type: 'error', message: error.message })
   return Promise.reject(error)
 })
-
 export default service

@@ -5,15 +5,15 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
+import departmentRouter from './modules/department'
+import approvalRouter from './modules/approval'
+import attendanceRouter from './modules/attendance'
+import employeeRouter from './modules/employee'
+import permissionRouter from './modules/permission'
+import roleRouter from './modules/role'
+import salaryRouter from './modules/salary'
+import socialRouter from './modules/social'
 
-import departmentRouter from '@/router/modules/department'
-import roleRouter from '@/router/modules/role'
-import approvalRouter from '@/router/modules/approval'
-import permissionRouter from '@/router/modules/permission'
-import employeeRouter from '@/router/modules/employee'
-import socialRouter from '@/router/modules/social'
-import salaryRouter from '@/router/modules/salary'
-import attendanceRouter from '@/router/modules/attendance'
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -50,14 +50,7 @@ export const constantRoutes = [
     component: () => import('@/views/404'),
     hidden: true
   },
-  departmentRouter,
-  permissionRouter,
-  roleRouter,
-  employeeRouter,
-  salaryRouter,
-  socialRouter,
-  approvalRouter,
-  attendanceRouter,
+
   {
     path: '/',
     component: Layout,
@@ -68,16 +61,25 @@ export const constantRoutes = [
       component: () => import('@/views/dashboard/index'),
       meta: { title: '首页', icon: 'dashboard' }
     }]
-  },
+  }
 
   // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
-]
 
+]
+// 动态路由
+export const asyncRoutes = [
+  departmentRouter,
+  roleRouter,
+  employeeRouter,
+  permissionRouter,
+  attendanceRouter,
+  approvalRouter,
+  salaryRouter,
+  socialRouter]
 const createRouter = () => new Router({
-  // mode: 'history', // require service support
+  mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
-  routes: constantRoutes
+  routes: constantRoutes // 默认引入静态路由
 })
 
 const router = createRouter()

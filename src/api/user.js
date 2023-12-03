@@ -7,11 +7,13 @@ export function login(data) {
     data
   })
 }
+
 export function getUserInfo() {
   return request({
     url: '/sys/profile'
   })
 }
+
 /**
  * 更新密码
  * **/
@@ -20,5 +22,10 @@ export function updatePassword(data) {
     url: '/sys/user/updatePass',
     method: 'put',
     data
+  })
+}
+export function getUserDetailById(id) {
+  return request({
+    url: `/sys/user/${id}`
   })
 }
