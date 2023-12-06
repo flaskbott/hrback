@@ -10,7 +10,7 @@
             <span v-else class="username">{{ name?.charAt(0) }}</span>
             <div class="company-info">
               <div class="title">
-                江苏传智播客教育科技股份有限公司
+                HARDBACK
                 <span>体验版</span>
               </div>
               <div class="depart">{{ name }} ｜ {{ company }}-{{ departmentName }}</div>
